@@ -102,10 +102,14 @@ que é ativado toda vez que uma branch no Github é criada ou modificada.
 
 ### Integração do Pronto
 
-Para rodar o Pronto, basta executar o seguinte comando:
+Para rodar o Pronto, basta adicionar em um dos estágios do pipeline o seguinte comando:
 
 ```
-PRONTO_GITHUB_ACCESS_TOKEN=${githubToken} PRONTO_PULL_REQUEST_ID=${prId} pronto run -f github_pr
+  stage('Rodando testes') {
+    // ...
+    sh "PRONTO_GITHUB_ACCESS_TOKEN=${githubToken} PRONTO_PULL_REQUEST_ID=${currentPullRequest()} pronto run -f github_pr"
+    // ...
+  }
 ```
 
 Devem-se passar duas variáveis de ambiente com os seguintes valores (interpolados pelo Groovy no arquivo do Jenkinsfile):
@@ -114,7 +118,7 @@ Devem-se passar duas variáveis de ambiente com os seguintes valores (interpolad
 
 ![Access Token Jenkins](images/access_token_jenkins.png "Access Token Jenkins")
 
-* `PRONTO_PULL_REQUEST_ID=${prId}`: É necessário passar o id do pull request no Github do contrário não é possível criar os comentários no pull request. Como o projeto do Jenkins foi configurado para rodar seguindo o fluxo de branches, é necessário retornar o pull request baseado na branch, fazendo uma chamada para API de pull requests do Github. Essa chamada é feita pela função [`prId`](https://github.com/quero-edu/elixir-pronto-credo-example/blob/master/Jenkinsfile#L30), usando o mesmo `githubToken` definido anteriormente.
+* `PRONTO_PULL_REQUEST_ID=${currentPullRequest()}`: É necessário passar o id do pull request no Github do contrário não é possível criar os comentários no pull request. Como o projeto do Jenkins foi configurado para rodar seguindo o fluxo de branches, é necessário retornar o pull request baseado na branch, fazendo uma chamada para API de pull requests do Github. Essa chamada é feita pela função [`currentPullRequest`](https://github.com/quero-edu/elixir-pronto-credo-example/blob/master/Jenkinsfile#L30), usando o mesmo `githubToken` definido anteriormente.
 
 O comando acima vai executar o runner do Credo no código que foi adicionado (em comparação com o master) e inserir como comentários os problemas encontrados.
 
@@ -126,7 +130,7 @@ Para ilustrar o uso do Credo no Github, foi adicionado no projeto de exemplo um 
 defmodule ProntoCredoExample.Example do
   @moduledoc """
   This module serves as an example for
-  cyclomatic complex
+  cyclomatic complexity
   """
 
   def do_something_complex(a, b, c, d, param) do
