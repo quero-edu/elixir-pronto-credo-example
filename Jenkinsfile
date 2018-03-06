@@ -11,7 +11,7 @@ node {
         // na prática você pode querer cachear as dependências
         docker.image('elixir:1.5').inside('-u root') {
             sh "apt-get update && apt-get install ruby ruby-dev cmake -y"
-            sh "gem install pronto pronto-credo --no-ri --no-rdoc"
+            sh "gem install rake pronto pronto-credo --no-ri --no-rdoc"
             sh "mix local.hex --force"
             sh "mix do deps.get, deps.compile, compile"
             sh "mix test"
