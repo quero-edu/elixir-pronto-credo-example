@@ -6,7 +6,7 @@ node {
     }
 
     stage("Rodando testes") {
-        def prId = currentPullRequest()
+        // def prId = currentPullRequest()
         // exemplo autocontido para rodar o pronto + credo
         // na prática você pode querer cachear as dependências
         docker.image('elixir:1.5').inside('-u root') {
@@ -18,10 +18,10 @@ node {
             // passo que chama o credo
             // se existir algum pull request associado ao
             // branch sendo testado
-            if (prId > 0) {
-                sh(script: "git stash && git checkout master && git checkout -f ${GITHUB_BRANCH_HEAD_SHA} && git stash pop", returnStatus: true)
-                sh "PRONTO_GITHUB_ACCESS_TOKEN=${githubToken} PRONTO_PULL_REQUEST_ID=${prId} pronto run -f github_status github_pr"
-            }
+            // if (prId > 0) {
+                // sh(script: "git stash && git checkout master && git checkout -f ${GITHUB_BRANCH_HEAD_SHA} && git stash pop", returnStatus: true)
+                sh "PRONTO_GITHUB_ACCESS_TOKEN=${githubToken} PRONTO_PULL_REQUEST_ID=${GITHUB_PR_NUMBER} pronto run -f github_status github_pr"
+            // }
         }
     }
 }
