@@ -14,7 +14,7 @@ node {
             sh "gem install rake pronto pronto-credo --no-ri --no-rdoc"
             sh "mix local.hex --force"
             sh "mix do deps.get, deps.compile, compile"
-            sh "mix test"
+            // sh "mix test"
             // passo que chama o credo
             // se existir algum pull request associado ao
             // branch sendo testado
