@@ -1,10 +1,6 @@
 node {
     def app
 
-    stage("Fazendo checkout do código") {
-        checkout scm
-    }
-
     stage("Rodando testes") {
         // def prId = currentPullRequest()
         // exemplo autocontido para rodar o pronto + credo
