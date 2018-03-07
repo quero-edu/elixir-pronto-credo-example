@@ -20,7 +20,7 @@ node {
             // branch sendo testado
             // if (prId > 0) {
                 // sh(script: "git stash && git checkout master && git checkout -f ${GITHUB_BRANCH_HEAD_SHA} && git stash pop", returnStatus: true)
-                sh "PRONTO_GITHUB_ACCESS_TOKEN=${githubToken} PRONTO_PULL_REQUEST_ID=${GITHUB_PR_NUMBER} pronto run -f github_status github_pr"
+                sh "PRONTO_GITHUB_ACCESS_TOKEN=${githubToken} PRONTO_PULL_REQUEST_ID=${GITHUB_PR_NUMBER} pronto run -f github_status github_pr -c origin/master"
             // }
         }
     }
